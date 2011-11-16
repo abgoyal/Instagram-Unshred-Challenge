@@ -7,28 +7,42 @@
 
 </head>
 
-<body width="200" align="center">
+<body >
+
+
+<div style="width:800px; margin: 0 auto;" >
+<center><h1>Instagram Unshred Challenge</h1></center>
 
 My attempt at a solution to the Instragram unshredding challenge. Put simply, the challenge is to take a shredded (and randomly put together) images like :
 <p>
 <center>
-<img src="TokyoPanoramaShredded.png">Shredded Tokyo Panorama</img>
+<img src="TokyoPanoramaShredded.png" alt="Shredded Tokyo Panorama">
 <br>
 or
 <br>
-<img src="eiffel_shredded.jpg">Eiffel Shredded</img>
+<img src="eiffel_shredded.jpg" alt="Eiffel Shredded">
 </center>
 <p>
 and stitch it back together into:
 <p>
 <center>
-<img src="TokyoPanoramaFixed.png">Restictched Tokyo Panorama</img>
+<img src="TokyoPanoramaFixed.png" alt="Restitched Tokyo Panorama">
 <br>
 and
 <br>
-<img src="eiffel_fixed.png">Eiffel restitched</img>
+<img src="eiffel_fixed.jpg" alt="Eiffel restitched">
 </center>
 <p>
+
+How it works:
+
+<ol>
+<li> We define a <i>distance</i> metric between two columns of pixels. In the current case
+the distance is simply the sum over the differences in each pair of corresponding pixels, one from each column. This difference is normalized with the sum of the two pixel value so as to get a <i>relative</i> difference.
+<li> 
+</ol>
+</div>
+
 
 </body>
 </html>
