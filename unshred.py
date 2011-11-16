@@ -19,7 +19,7 @@ rev_sortbycolumn = lambda l,c: sorted(l, key = lambda x: x[c], reverse=True)
 
 # vector average
 def avg(x):
-	if x: 
+	if x:
 		return 1.0*sum(x)/len(x)
 	else:
 		return 0
@@ -31,12 +31,12 @@ vgcd = lambda v: reduce(gcd,v)
 ## algo implementations
 
 
-# distance metric - this it the key  
+# distance metric - this it the key
 def distance(v1, v2): # fractional difference in pixel values
 	return numpy.sum(((v1-v2)/(v1+v2+1))**2)
 
 
-# simple cluster detection	
+# simple cluster detection
 def cluster1d(values):
 	z = rev_sortbycolumn(values, 1)
 	part = [z[0][0]]
@@ -67,12 +67,12 @@ def stripwidth_algo(im):
 	# potential values of slice widths
 	possible_slice_widths = xrange(1,image_width/2)
 
-	# find average of all distances between edges for each possible shred width  
+	# find average of all distances between edges for each possible shred width
 	avg_dists = [ (w,avg(dists[(w-1)::w])) for w in possible_slice_widths]
 
 	# silly 1d cluster/outlier detection
 	possibles = cluster1d(avg_dists)
-	
+
 	# return the min of the possibles. this is usually harmless even if true width is a multiple
 	return min(possibles)
 
@@ -86,18 +86,18 @@ def unshred_algo(im,strip_width):
 	# extract grayscale pixel data from image into a list
 	image_data = numpy.array(im.convert("L").getdata(), 'float')
 
-	# extracts all pixels from a specific column 
+	# extracts all pixels from a specific column
 	image_column = lambda i: (image_data[i::im_width])
 
 	# extract the left and right edges of each strip as columns
 	left_edges = []
 	right_edges = []
-	for i in xrange(0,n):	
+	for i in xrange(0,n):
 		left_edges.append(image_column(i*strip_width))
 		right_edges.append(image_column(i*strip_width + strip_width -1))
 
 
-	
+
 	# calculate the distance metric between each left-edge<>right-edge pair
 	dists = []
 	for left_edge_index,left_edge in enumerate(left_edges):
@@ -107,11 +107,11 @@ def unshred_algo(im,strip_width):
 
 
 
-	sorted_dists = rev_sortbycolumn(dists,2)	
+	sorted_dists = rev_sortbycolumn(dists,2)
 
 
 	# select the pairs with the least distance between (strip_left_edge, strip_right_edge) pixels
-	assigned_left_edges  = []	
+	assigned_left_edges  = []
 	assigned_right_edges = {}
 	while len(assigned_right_edges)<n:
 		left_edge_index, right_edge_index, dist = sorted_dists.pop()
@@ -122,10 +122,10 @@ def unshred_algo(im,strip_width):
 
 	# last strip assigned is most probably the left edge
 	s = assigned_left_edges[-1]
-	order = [ s ] 
+	order = [ s ]
 	while s in assigned_right_edges and len(order)<n:
 		order.append(assigned_right_edges[s])
-		s = assigned_right_edges[s] 
+		s = assigned_right_edges[s]
 
 	return order
 
@@ -133,8 +133,8 @@ def strip_copy(im_original, im_copy, w, a, b):
 	h = im_original.size[1]
 	a_tuple= tuple([a*w, 0, (a+1)*w, h])
 	b_tuple= tuple([b*w, 0, (b+1)*w, h])
-	
-	im_copy.paste( im_original.crop(a_tuple) , box=b_tuple )	
+
+	im_copy.paste( im_original.crop(a_tuple) , box=b_tuple )
 
 def unshred(im,strip_width=None):
 	im2 = im.copy()
@@ -168,14 +168,13 @@ def demo():
 	im_fixed1.show()
 	im_fixed2   = unshred(im_shreded,32)
 	im_fixed2.show()
-		
+
 	im_reshredded = shred(im_fixed2, 16)
 	im_fixed1   = unshred(im_shreded)
 	im_fixed1.show()
 	im_fixed2   = unshred(im_shreded,16)
 	im_fixed2.show()
-	
+
 
 if __name__ == "__main__":
-    demo()
-
+	demo()
