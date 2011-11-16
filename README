@@ -7,6 +7,7 @@ This is my take on the challenge.
 - no magic "weights" or constants
 - detects slice width if not given*
 - fairly robust - could be improved
+- *very fast*
 
 * doesn't work perfectly, sometimes detects widths which are factors of the actual width
 this is harmless as the unshredder still works
