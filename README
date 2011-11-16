@@ -1,0 +1,13 @@
+Solution to http://instagram-engineering.tumblr.com/post/12651721845/instagram-engineering-challenge-the-unshredder
+in python
+
+This is my take on the challenge. Took a couple hours to get right.
+
+- uses a simple idea of a distance metric between pixel columns(slice edges)
+- no magic "weights" or constants
+- detects slice width if not given*
+- fairly robust - could be improved
+
+* doesn't work perfectly, sometimes detects widths which are factors of the actual width
+this is harmless as the unshredder still works
+
