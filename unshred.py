@@ -33,7 +33,7 @@ vgcd = lambda v: reduce(gcd,v)
 
 # distance metric - this it the key  
 def distance(v1, v2): # fractional difference in pixel values
-	return sum(map(lambda x,y: (1.0*(x-y)/(x+y+1))**2, v1, v2))
+	return numpy.sum(((v1-v2)/(v1+v2+1))**2)
 
 
 # simple cluster detection	
@@ -54,7 +54,7 @@ def stripwidth_algo(im):
 	image = im.convert("L")
 
 	#extract image pixel data as a python list
-	image_data = list(image.getdata())
+	image_data = numpy.array(image.getdata(), 'float')
 	image_width = image.size[0]
 	image_height = image.size[1]
 
@@ -84,7 +84,7 @@ def unshred_algo(im,strip_width):
 	n = im_width/strip_width # number of strips
 
 	# extract grayscale pixel data from image into a list
-	image_data = list(im.convert("L").getdata())
+	image_data = numpy.array(im.convert("L").getdata(), 'float')
 
 	# extracts all pixels from a specific column 
 	image_column = lambda i: (image_data[i::im_width])
