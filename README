@@ -1,7 +1,7 @@
 Solution to http://instagram-engineering.tumblr.com/post/12651721845/instagram-engineering-challenge-the-unshredder
 in python
 
-This is my take on the challenge. Took a couple hours to get right.
+This is my take on the challenge. 
 
 - uses a simple idea of a distance metric between pixel columns(slice edges)
 - no magic "weights" or constants
