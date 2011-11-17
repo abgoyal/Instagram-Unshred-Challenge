@@ -14,7 +14,8 @@
 <center><h1>Instagram Unshred Challenge</h1></center>
 
 An attempt at a solution to the <a href=
-"http://instagram-engineering.tumblr.com/post/12651721845/instagram-engineering-challenge-the-unshredder" >Instragram unshredding challenge</a>. Put simply, the challenge is to take a shredded (and randomly put together) images like :
+"http://instagram-engineering.tumblr.com/post/12651721845/instagram-engineering-challenge-the-unshredder" >Instragram unshredding challenge</a>. 
+Put simply, the challenge is to take shredded (and randomly put together) images like :
 <p>
 <center>
 <img src="TokyoPanoramaShredded.png" alt="Shredded Tokyo Panorama">
@@ -34,9 +35,10 @@ and
 <img src="eiffel_fixed.jpg" alt="Eiffel restitched">
 </center>
 <p>
-
+The code is <a href="http://github.com/abgoyal/Instagram_Unshred_Challenge">on github</a>
+<p>
 How it works:
-
+<p>
 <ol>
 <li> We define a <i>distance</i> metric between two columns of pixels. In the current case
 the distance is simply the sum over the differences in each pair of corresponding pixels, one from each column. This difference is normalized with the sum of the two pixel value so as to get a <i>relative</i> difference.
