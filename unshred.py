@@ -3,6 +3,7 @@ import numpy
 from fractions import gcd
 from functools import reduce
 import random
+import sys
 
 # file meta data
 __version__ = "1.0"
@@ -153,6 +154,37 @@ def demo():
 	im_fixed2.show()
 
 
+def process_command(args):
+	cmd = args[0]
+	if cmd == "shred":
+		w = int(args[1])
+		ifname = args[2]
+		ofname = args[3]
+		im = Image.open(ifname)
+		im_shredded = shred(im, w)
+		im_shredded.save(ofname)
+		return
+	if cmd == "unshred":
+		w = int(args[1])
+		ifname = args[2]
+		ofname = args[3]
+		im = Image.open(ifname)
+
+		if w==0: 
+			im_fixed = unshred(im)
+		else:
+			im_fixed = unshred(im,w)
+
+		im_fixed.save(ofname)
+		return
+
+	print "Unknown command"
+	return
+
+
 if __name__ == "__main__":
-	demo()
+	if len(sys.argv) > 1:
+		process_command(sys.argv[1:])
+	else:
+		demo()
 
