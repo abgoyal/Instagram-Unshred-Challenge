@@ -12,17 +12,10 @@ __license__ = "apl"
 
 ## some utilities
 
-#sort a 2d list by a given column #, in reverse
+#sort a 2d list by a given column #
 rev_sortbycolumn = lambda l,c: sorted(l, key = lambda x: x[c], reverse=True)
+sortbycolumn = lambda l,c: sorted(l, key = lambda x: x[c])
 
-
-
-# vector average
-def avg(x):
-	if x:
-		return 1.0*sum(x)/len(x)
-	else:
-		return 0
 
 # vector gcd
 vgcd = lambda v: reduce(gcd,v)
@@ -38,43 +31,27 @@ def distance(v1, v2): # fractional difference in pixel values
 
 # simple cluster detection
 def cluster1d(values):
-	z = rev_sortbycolumn(values, 1)
-	part = [z[0][0]]
-	idx = 1
+	z = sortbycolumn(values, 1)
+	part = [ z.pop()[0]]
 	while vgcd(part)>1:
-		part.append(z[idx][0])
-		idx=idx+1
-	return part[:-1]
+		part.append(z.pop()[0])
+
+	return vgcd(part[:-1])
 
 # estimate the strip width
 def stripwidth_algo(im):
 
-	# read in image
-	#convert to greyscale for faster+simpler processing
-	image = im.convert("L")
-
-	#extract image pixel data as a python list
-	image_data = numpy.array(image.getdata(), 'float')
-	image_width = image.size[0]
-	image_height = image.size[1]
+	#extract image pixel data as a numpy array
+	image_data = numpy.asarray(im.convert("L").getdata(), 'float')
+	image_width = im.size[0]
+	image_height = im.size[1]
 
 	image_column = lambda i: (image_data[i::image_width])
 
 	# calculate correlation coefs between each pair of adjacent columns in the image
-	dists = [ distance(image_column(i), image_column(i+1))  for i in xrange(0,image_width-1) ]
+	dists = [ [i+1, distance(image_column(i), image_column(i+1))]  for i in xrange(0,image_width-1) ]
 
-
-	# potential values of slice widths
-	possible_slice_widths = xrange(1,image_width/2)
-
-	# find average of all distances between edges for each possible shred width
-	avg_dists = [ (w,avg(dists[(w-1)::w])) for w in possible_slice_widths]
-
-	# silly 1d cluster/outlier detection
-	possibles = cluster1d(avg_dists)
-
-	# return the min of the possibles. this is usually harmless even if true width is a multiple
-	return min(possibles)
+	return cluster1d(dists)
 
 
 # unshred an image given strip width
@@ -83,8 +60,8 @@ def unshred_algo(im,strip_width):
 	im_height = im.size[1]
 	n = im_width/strip_width # number of strips
 
-	# extract grayscale pixel data from image into a list
-	image_data = numpy.array(im.convert("L").getdata(), 'float')
+	# extract grayscale pixel data from image into a numpy.array
+	image_data = numpy.asarray(im.convert("L").getdata(), 'float')
 
 	# extracts all pixels from a specific column
 	image_column = lambda i: (image_data[i::im_width])
@@ -178,3 +155,4 @@ def demo():
 
 if __name__ == "__main__":
 	demo()
+
