@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 from PIL import Image
 import numpy
 from fractions import gcd
@@ -68,20 +70,18 @@ def unshred_algo(im,strip_width):
 	image_column = lambda i: (image_data[i::im_width])
 
 	# extract the left and right edges of each strip as columns
-	left_edges = []
-	right_edges = []
+	edges = []
 	for i in xrange(0,n):
-		left_edges.append(image_column(i*strip_width))
-		right_edges.append(image_column(i*strip_width + strip_width -1))
+		edges.append(image_column(i*strip_width))
+		edges.append(image_column(i*strip_width + strip_width -1))
 
 
 
 	# calculate the distance metric between each left-edge<>right-edge pair
 	dists = []
-	for left_edge_index,left_edge in enumerate(left_edges):
-		for right_edge_index,right_edge in enumerate(right_edges):
-			if not left_edge_index == right_edge_index: # a strip cannot be next to itself
-				dists.append([left_edge_index, right_edge_index, distance(left_edge,right_edge) ])
+	for idx1,edge1 in enumerate(edges[:-1]):
+		for idx2,edge2 in enumerate(edges[idx1+1:]):
+			dists.append([idx1, idx2+idx1+1, distance(edge1,edge2) ])
 
 
 
@@ -142,16 +142,16 @@ def shred(im,m):
 
 def demo():
 	im_shreded = Image.open("TokyoPanoramaShredded.png")
-	im_fixed1   = unshred(im_shreded)
-	im_fixed1.show()
+	#im_fixed1   = unshred(im_shreded)
+	#im_fixed1.show()
 	im_fixed2   = unshred(im_shreded,32)
 	im_fixed2.show()
 
-	im_reshredded = shred(im_fixed2, 16)
-	im_fixed1   = unshred(im_shreded)
-	im_fixed1.show()
-	im_fixed2   = unshred(im_shreded,16)
-	im_fixed2.show()
+	#im_reshredded = shred(im_fixed2, 16)
+	#im_fixed1   = unshred(im_shreded)
+	#im_fixed1.show()
+	#im_fixed2   = unshred(im_shreded,16)
+	#im_fixed2.show()
 
 
 def process_command(args):
