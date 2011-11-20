@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 from PIL import Image
 import numpy
 from fractions import gcd
